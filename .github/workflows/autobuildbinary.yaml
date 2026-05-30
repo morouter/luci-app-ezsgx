@@ -75,7 +75,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@master
         with:
-          tag_name: test
+          tag_name: +windows
           files: sing-box/sing-box-${{ matrix.nickname }}
           body: |
             # This release created by GitHub Actions
