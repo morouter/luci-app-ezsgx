@@ -17,21 +17,25 @@ jobs:
             sing-box_branch: "testing"
             tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
             extra: "CGO_ENABLED=1 GOAMD64=v4"
+            nickname: "linux-amd64v4-glibc-server"
           - sing-box_arch: "amd64"
             goos: "linux"
             sing-box_branch: "testing"
             tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
             extra: "CGO_ENABLED=1 GOAMD64=v3"
+            nickname: "linux-amd64v3-glibc-server"
           - sing-box_arch: "amd64"
             goos: "linux"
             sing-box_branch: "stable"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             extra: "CGO_ENABLED=1 GOAMD64=v4"
+            nickname: "linux-amd64v4-glibc-v2rayN"
           - sing-box_arch: "arm64"
             goos: "linux"
             sing-box_branch: "testing"
             tags: "with_quic with_utls with_acme with_clash_api with_gvisor badlinkname tfogo_checklinkname0 with_musl"
             extra: ""
+            nickname: "linux-arm64-musl"
 
     steps:
       - name: Checkout Code
@@ -60,13 +64,13 @@ jobs:
         run: |
           cd sing-box
           ${{ matrix.extra }} GOOS=${{ matrix.goos }} TAGS="${{ matrix.tags }}" make -j$(nproc)
-          mv sing-box "sing-box-${{ matrix.sing-box_branch }}-${{ matrix.goos }}-${{ matrix.sing-box_arch }}"
+          mv sing-box "sing-box-${{ matrix.nickname }}"
 
       - name: Release
         uses: softprops/action-gh-release@master
         with:
           tag_name: test
-          files: sing-box/sing-box-${{ matrix.sing-box_branch }}-${{ matrix.goos }}-${{ matrix.sing-box_arch }}
+          files: sing-box/sing-box-${{ matrix.nickname }}
           body: |
             # This release created by GitHub Actions
             - Make sing-box with some tags i need
