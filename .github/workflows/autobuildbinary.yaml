@@ -32,11 +32,6 @@ jobs:
             sing-box_branch: "testing"
             tags: "with_quic with_utls with_acme with_clash_api with_gvisor badlinkname tfogo_checklinkname0 with_musl"
             extra: ""
-          - sing-box_arch: "arm64"
-            goos: "linux"
-            sing-box_branch: "stable"
-            tags: "with_quic with_utls with_acme with_clash_api with_gvisor badlinkname tfogo_checklinkname0 with_musl"
-            extra: ""
 
     steps:
       - name: Checkout Code
