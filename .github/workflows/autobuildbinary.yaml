@@ -1,0 +1,60 @@
+name: Rebirth, SHIMA
+
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    name: Build for ${{ matrix.patch_arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - sing-box_arch: "amd64"
+            sing-box_os: "linux"
+            sing-box_branch: "testing"
+            tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+            cgo_enabled: "1"
+            goamd64: "v4"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+
+      - name: Clone Source Code
+        shell: bash
+        run: |
+          git clone https://github.com/SagerNet/sing-box.git
+
+      - name: Change branch
+        shell: bash
+        run: |
+          cd sing-box
+          git checkout ${{ matrix.sing-box_branch }}
+          git pull
+
+      - name: Set up Go
+        uses: actions/setup-go@main
+        with:
+          go-version: '1.26.3'
+          cache: true
+
+      - name: Build!
+        shell: bash
+        run: |
+          cd sing-box
+          CGO_ENABLED=${{ matrix.cgo_enabled }} GOAMD64=${{ matrix.goamd64 }} TAGS="${{ matrix.tags }}" make -j$(nproc)
+
+      - name: Release
+        uses: softprops/action-gh-release@master
+        with:
+          tag_name: 101001
+          files: sing-box/sing-box
+          body: |
+            # 📝 Release Notes
+            - Try to CI Build sing-box
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
