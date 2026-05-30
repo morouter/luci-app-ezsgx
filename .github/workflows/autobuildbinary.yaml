@@ -65,7 +65,7 @@ jobs:
         run: |
           cd sing-box
           ${{ matrix.extra }} GOOS=${{ matrix.goos }} TAGS="${{ matrix.tags }}" make -j$(nproc)
-          mv sing-box "sing-box-${{ sing-box_branch }}-${{ matrix.goos }}-${{ matrix.sing-box_arch }}"
+          mv sing-box "sing-box-${{ matrix.sing-box_branch }}-${{ matrix.goos }}-${{ matrix.sing-box_arch }}"
 
       - name: Release
         uses: softprops/action-gh-release@master
