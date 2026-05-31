@@ -44,13 +44,12 @@ jobs:
             nickname: "windows-amd64-v2rayN.exe"
 
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@main
 
       - name: Clone Source Code
         shell: bash
         run: |
-          ls
           git clone https://github.com/SagerNet/sing-box.git
 
       - name: Change branch
