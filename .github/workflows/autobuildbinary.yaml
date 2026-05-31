@@ -14,38 +14,32 @@ jobs:
         include:
           - sing-box_arch: "amd64"
             sing-box_branch: "testing"
-            goos: "linux"
-            extra: "CGO_ENABLED=1 GOAMD64=v4"
+            extra: "CGO_ENABLED=1 GOOS=linux GOAMD64=v4"
             tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
             nickname: "linux-amd64v4-glibc-server"
           - sing-box_arch: "amd64"
             sing-box_branch: "testing"
-            goos: "linux"
-            extra: "CGO_ENABLED=1 GOAMD64=v3"
+            extra: "CGO_ENABLED=1 GOOS=linux GOAMD64=v3"
             tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
             nickname: "linux-amd64v3-glibc-server"
           - sing-box_arch: "arm64"
             sing-box_branch: "testing"
-            goos: "linux"
-            extra: "GOARCH=arm64"
+            extra: "GOOS=linux GOARCH=arm64"
             tags: "with_quic with_utls with_acme with_clash_api with_gvisor badlinkname tfogo_checklinkname0 with_musl"
             nickname: "linux-arm64-musl-router"
           - sing-box_arch: "amd64"
             sing-box_branch: "stable"
-            goos: "linux"
-            extra: "CGO_ENABLED=1 GOAMD64=v4"
+            extra: "CGO_ENABLED=1 GOOS=linux GOAMD64=v4"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "linux-amd64v4-glibc-v2rayN"
           - sing-box_arch: "arm64"
             sing-box_branch: "stable"
-            goos: "darwin"
-            extra: "GOARCH=arm64"
+            extra: "GOOS=darwin GOARCH=arm64"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "macos-aarch64-v2rayN"
           - sing-box_arch: "amd64"
             sing-box_branch: "stable"
-            goos: "windows"
-            extra: ""
+            extra: "GOOS=windows"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "windows-amd64-v2rayN.exe"
 
@@ -76,14 +70,14 @@ jobs:
         shell: bash
         run: |
           cd sing-box
-          ${{ matrix.extra }} GOOS=${{ matrix.goos }} TAGS="${{ matrix.tags }}" make -j$(nproc)
-          mv sing-box* "sing-box-${{ matrix.nickname }}"
+          ${{ matrix.extra }} TAGS="${{ matrix.tags }}" make -j$(nproc)
+          mv sing-box* "sing-box-${{ matrix.sing-box_branch}}-${{ matrix.nickname }}"
 
       - name: Release
         uses: softprops/action-gh-release@master
         with:
-          tag_name: +mac
-          files: sing-box/sing-box-${{ matrix.nickname }}
+          tag_name: +branchname
+          files: sing-box/sing-box-${{ matrix.sing-box_branch}}-${{ matrix.nickname }}
           body: |
             # This release created by GitHub Actions
             - Make sing-box with some tags i need
