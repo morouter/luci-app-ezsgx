@@ -41,7 +41,7 @@ jobs:
             sing-box_branch: "stable"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             extra: ""
-            nickname: "windows-amd64-v2rayN.exe"
+            nickname: "macos-aarch64-v2rayN"
           - sing-box_arch: "amd64"
             goos: "windows"
             sing-box_branch: "stable"
