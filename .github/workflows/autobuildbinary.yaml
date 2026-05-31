@@ -29,7 +29,7 @@ jobs:
             sing-box_branch: "testing"
             tags: "with_quic with_utls with_acme with_clash_api with_gvisor badlinkname tfogo_checklinkname0 with_musl"
             extra: "GOARCH=arm64"
-            nickname: "linux-arm64-musl"
+            nickname: "linux-arm64-musl-router"
           - sing-box_arch: "amd64"
             goos: "linux"
             sing-box_branch: "stable"
