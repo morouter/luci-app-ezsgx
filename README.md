@@ -1,5 +1,6 @@
 # LuCI-APP-EZSgX
-> LuCI APP Eazy sing-box
+LuCI APP Eazy sing-box
+
 - LuCI interface for sing-box , with built-in binary
 ## 🚀 Features
 - Full sing-box operation permissions.
@@ -10,4 +11,4 @@
 ## ⚖️ License
 > This project is licensed under the **[GNU General Public License v3.0 (GPL-3.0)](https://www.gnu.org/licenses/gpl-3.0.html)**
 >
-> Built-in [sing-box](https://github.com/SagerNet/sing-box) based on <https://github.com/SagerNet/sing-box/blob/testing/LICENSE>
+> Built-in [sing-box](https://github.com/SagerNet/sing-box) licensed under <https://github.com/SagerNet/sing-box/blob/testing/LICENSE>
