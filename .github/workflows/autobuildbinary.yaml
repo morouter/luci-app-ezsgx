@@ -58,6 +58,7 @@ jobs:
           cd sing-box
           git checkout ${{ matrix.sing-box_branch }}
           git pull
+          git fetch --tags --force
 
       - name: Set up Go
         uses: actions/setup-go@main
