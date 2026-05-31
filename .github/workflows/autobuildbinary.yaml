@@ -71,7 +71,7 @@ jobs:
         shell: bash
         run: |
           cd sing-box
-          sed -i 's/GOOS= GOARCH= go run/CGO_ENABLED=0  GOAMD64= go run/' Makefile
+          sed -i 's/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) GOAMD64= go run/' Makefile
     
       - name: Build!
         shell: bash
