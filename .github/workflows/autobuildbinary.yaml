@@ -37,6 +37,11 @@ jobs:
             extra: "GOOS=darwin GOARCH=arm64"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "macos-aarch64-v2rayN"
+          - sing-box_arch: "arm64"
+            sing-box_branch: "stable"
+            extra: "GOOS=linux GOARCH=arm64"
+            tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
+            nickname: "linux-aarch64-v2rayN"
           - sing-box_arch: "amd64"
             sing-box_branch: "stable"
             extra: "GOOS=windows"
@@ -63,9 +68,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@main
         with:
-          go-version: '1.26.3'
-          cache-dependency-path: sing-box/go.sum
-          cache: true
+          go-version: 'stable'
           
       - name: Patch Makefile
         shell: bash
