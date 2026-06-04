@@ -1,6 +1,5 @@
 # LuCI-APP-EZSgX
-LuCI APP Eazy sing-box
-
+> Full Name:LuCI APP Eazy sing-box
 - LuCI interface for sing-box , with built-in binary
 ## 🚀 Features
 - Full sing-box operation permissions.
