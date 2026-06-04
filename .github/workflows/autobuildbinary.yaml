@@ -80,9 +80,7 @@ jobs:
         shell: bash
         run: |
           cd sing-box
-          GOHOSTOS = $(shell go env GOHOSTOS)
-          GOHOSTARCH = $(shell go env GOHOSTARCH)
-          VERSION=$(shell CGO_ENABLED=0 GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
+          VERSION=$(go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
           ${{ matrix.extra }} TAGS="${{ matrix.tags }}" VERSION="$VERSION" make -j$(nproc)
           mv sing-box* "sing-box-${{ matrix.sing-box_branch}}-${{ matrix.nickname }}"
 
