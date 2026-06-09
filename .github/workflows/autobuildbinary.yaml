@@ -47,7 +47,7 @@ jobs:
       - name: Clone sing-box Source Code
         shell: bash
         run: |
-          git clone https://github.com/SagerNet/sing-box.gits
+          git clone https://github.com/SagerNet/sing-box.git
           cd sing-box
           git checkout ${{ matrix.sing-box_branch }}
           git pull
