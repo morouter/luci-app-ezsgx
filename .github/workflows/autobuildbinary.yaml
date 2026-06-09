@@ -37,16 +37,6 @@ jobs:
             extra: "GOOS=darwin GOARCH=arm64"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "macos-aarch64-v2rayN"
-          - sing-box_arch: "arm64"
-            sing-box_branch: "stable"
-            extra: "GOOS=linux GOARCH=arm64"
-            tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
-            nickname: "linux-aarch64-v2rayN"
-          - sing-box_arch: "amd64"
-            sing-box_branch: "stable"
-            extra: "GOOS=windows"
-            tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
-            nickname: "windows-amd64-v2rayN.exe"
 
     steps:
       - name: Checkout
