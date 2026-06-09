@@ -42,7 +42,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
         with:
-          path: /dev/null
+          path: useless/
     
       - name: Clone sing-box Source Code
         shell: bash
