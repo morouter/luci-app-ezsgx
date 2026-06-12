@@ -1,12 +1,13 @@
 name: Build sing-box Binary
 
 on:
+  push:
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
   build:
-    name: Build
+    name: Build sing-box-${{ matrix.sing-box_branch }}-${{ matrix.nickname }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -25,13 +26,18 @@ jobs:
           - sing-box_arch: "arm64"
             sing-box_branch: "testing"
             extra: "GOOS=linux GOARCH=arm64"
-            tags: "with_quic with_utls with_acme with_clash_api with_gvisor badlinkname tfogo_checklinkname0 with_musl"
+            tags: "with_quic with_utls with_acme with_gvisor badlinkname tfogo_checklinkname0 with_musl"
             nickname: "linux-arm64-musl-router"
           - sing-box_arch: "amd64"
             sing-box_branch: "stable"
             extra: "CGO_ENABLED=1 GOOS=linux GOAMD64=v4"
             tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "linux-amd64v4-glibc-v2rayN"
+          - sing-box_arch: "amd64"
+            sing-box_branch: "stable"
+            extra: "CGO_ENABLED=1 GOOS=linux GOAMD64=v3"
+            tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
+            nickname: "linux-amd64v3-glibc-v2rayN"
           - sing-box_arch: "arm64"
             sing-box_branch: "stable"
             extra: "GOOS=darwin GOARCH=arm64"
