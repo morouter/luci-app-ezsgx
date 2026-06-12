@@ -31,7 +31,7 @@ jobs:
           - sing-box_arch: "amd64"
             sing-box_branch: "stable"
             extra: "CGO_ENABLED=1 GOOS=linux GOAMD64=v4"
-            tags: "with_quic with_utls with_gvisor with_clash_api tfogo_checklinkname0 badlinkname"
+            tags: "with_quic with_utls with_clash_api tfogo_checklinkname0 badlinkname"
             nickname: "linux-amd64v4-glibc-v2rayN"
           - sing-box_arch: "amd64"
             sing-box_branch: "stable"
