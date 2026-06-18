@@ -17,12 +17,32 @@ jobs:
             sing-box_arch: "amd64"
             sing-box_branch: "testing"
             extra: "GOAMD64=v4"
-            tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+            tag: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
           - nickname: "linux-amd64v3-glibc-server"
             sing-box_arch: "amd64"
             sing-box_branch: "testing"
             extra: "GOAMD64=v3"
-            tags: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+            tag: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+          - nickname: "linux-amd64v2-glibc-server"
+            sing-box_arch: "amd64"
+            sing-box_branch: "testing"
+            extra: "GOAMD64=v2"
+            tag: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+          - nickname: "linux-amd64v1-glibc-server"
+            sing-box_arch: "amd64"
+            sing-box_branch: "testing"
+            extra: "GOAMD64=v1"
+            tag: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+          - nickname: "linux-amd64-glibc-server"
+            sing-box_arch: "amd64"
+            sing-box_branch: "testing"
+            extra: ""
+            tag: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
+          - nickname: "linux-amd64-musl-server"
+            sing-box_arch: "amd64"
+            sing-box_branch: "testing"
+            extra: "CGO_ENABLED=0"
+            tag: "with_quic with_utls with_acme tfogo_checklinkname0 badlinkname"
 
     steps:
       - name: Checkout
@@ -50,7 +70,7 @@ jobs:
           cd sing-box
           sed -i 's/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) GOAMD64= go run/' Makefile
           VERSION=$(go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
-          ${{ matrix.extra }} TAGS="${{ matrix.tags }}" VERSION="$VERSION" make -j$(nproc)
+          ${{ matrix.extra }} TAGS="${{ matrix.tag }}" VERSION="$VERSION" make -j$(nproc)
           mv sing-box* "sing-box-${{ matrix.sing-box_branch}}-${{ matrix.nickname }}"
 
       - name: Release
