@@ -65,7 +65,7 @@ jobs:
             sing-box_branch: "stable"
             extra: "GOOS=darwin GOARCH=arm64"
             tag: "with_gvisor with_quic with_utls with_wireguard with_clash_api tfogo_checklinkname0 badlinkname"
-          - nickname: "windows-amd64-v2rayN"
+          - nickname: "windows-amd64-v2rayN.exe"
             sing-box_branch: "stable"
             extra: "GOOS=windows"
             tag: "with_gvisor with_quic with_utls with_wireguard with_clash_api tfogo_checklinkname0 badlinkname"
