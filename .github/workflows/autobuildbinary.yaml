@@ -1,6 +1,8 @@
 name: Build sing-box Binary
 
 on:
+  schedule:
+    - cron: '0 0 * * *'
   push:
   workflow_dispatch:
 permissions:
