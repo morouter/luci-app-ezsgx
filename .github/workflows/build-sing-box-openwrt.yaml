@@ -1,0 +1,77 @@
+name: Manuel Build sing-box for OpenWrt
+
+on:
+  workflow_run:
+    workflows: ["Automanticly Build sing-box"]
+    types:
+      - completed
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    name: Build sing-box-${{ matrix.sing-box_branch }}-${{ matrix.nickname }}
+    runs-on: ubuntu-latest
+    env:
+      project_name: "luci-app-ezsgx"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - sing-box_nickname: "amd64-musl-server"
+            patch_arch: "x86_64"
+            sdk_name: "openwrt-sdk-x86-64_gcc-14.3.0_musl.Linux-x86_64"
+          - sing-box_nickname: "arm64-musl-server"
+            patch_arch: "aarch64_generic"
+            sdk_name: "openwrt-sdk-rockchip-armv8_gcc-14.3.0_musl.Linux-x86_64"
+          - sing-box_nickname: "arm64-musl-server"
+            patch_arch: "aarch64_cortex-a53"
+            sdk_name: "openwrt-sdk-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64"
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@main
+          with:
+            path: useless/
+        
+        - name: Preparing build environment
+          uses: mokanove/mokanove/actions/build-env@main
+
+        - name: Prepare SDK
+          uses: mokanove/mokanove/actions/prepare-sdk@main
+          with:
+            sdk_name: ${{ matrix.sdk_name }}
+        
+        - name: Build!
+          shell: bash
+          run: |
+            cd ${{ matrix.sdk_name }}/package
+            git clone https://github.com/mokanove/luci-app-ezsgx.git
+            git checkout openwrt
+            git pull
+            cd ${{ env.project_name }}/root/usr/bin/
+            rm DONOTREMOVE
+            wget -O sing-box https://github.com/mokanove/luci-app-ezsgx/releases/download/sing-box/sing-box-testing-linux-${{ matrix.sing-box_nickname }}
+            chmod +x ./sing-box
+            cd ../../../
+            if [ "${{ matrix.patch_arch }}" != "x86_64" ]; then
+            sed -i 's/x86_64/${{ matrix.patch_arch }}/g' ./Makefile
+            fi
+            ../../
+            make package/${{ env.project_name }}/compile V=s -j$(nproc)
+            mv ${{ matrix.sdk_name }}/bin/packages/*/base/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
+
+        - name: Release
+          uses: softprops/action-gh-release@master
+          with:
+          tag_name: sing-box-openwrt
+          files: ${{ github.workspace }}/sing-box-${{ matrix.patch_arch }}.apk
+          body: |
+            # 🚀 sing-box OpenWrt
+            > with some tag i need and performance +++++
+            # ⚠️ Filename rule
+            > sing-box-patch-arch
+            # 🪞 Mirror
+            [By myself](https://867678.xyz/doc/Mirror)
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
