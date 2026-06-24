@@ -96,8 +96,8 @@ jobs:
         shell: bash
         run: |
           cd sing-box
+          go get -u
           go mod tidy
-          go get -u && go mod tidy go get -u
           sed -i 's/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) GOAMD64= go run/' Makefile
           VERSION=$(go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
           ${{ matrix.extra }} TAGS="${{ matrix.tag }}" VERSION="$VERSION" make -j$(nproc)
