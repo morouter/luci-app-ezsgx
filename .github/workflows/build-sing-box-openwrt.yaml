@@ -73,6 +73,11 @@ jobs:
             > with some tag i need and performance +++++
             # ⚠️ Filename rule
             > sing-box-patch-arch
+            >
+            > And you must be install depends, else it can't work
+            ```
+            apk add ca-bundle kmod-inet-diag kmod-tun firewall4 kmod-nft-queue
+            ```
             # 🪞 Mirror
             [By myself](https://867678.xyz/doc/Mirror)
         env:
