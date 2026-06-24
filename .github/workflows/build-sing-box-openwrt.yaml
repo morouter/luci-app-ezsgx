@@ -1,10 +1,10 @@
 name: Manuel Build sing-box for OpenWrt
 
 on:
-  workflow_run:
-    workflows: ["Automanticly Build sing-box"]
-    types:
-      - completed
+  #workflow_run:
+  #  workflows: ["Automanticly Build sing-box"]
+  #  types:
+  #    - completed
   workflow_dispatch:
 permissions:
   contents: write
