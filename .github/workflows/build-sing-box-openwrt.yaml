@@ -47,9 +47,10 @@ jobs:
         run: |
           cd ${{ matrix.sdk_name }}/package
           git clone https://github.com/mokanove/luci-app-ezsgx.git
+          cd ${{ env.project_name }}
           git checkout openwrt
           git pull
-          cd ${{ env.project_name }}/root/usr/bin/
+          cd root/usr/bin/
           rm DONOTREMOVE
           wget -O sing-box https://github.com/mokanove/luci-app-ezsgx/releases/download/sing-box/sing-box-testing-linux-${{ matrix.sing-box_nickname }}
           chmod +x ./sing-box
