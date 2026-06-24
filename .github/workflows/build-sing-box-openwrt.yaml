@@ -59,7 +59,8 @@ jobs:
           sed -i 's/x86_64/${{ matrix.patch_arch }}/g' ./Makefile
           fi
           cd ../../
-          make package/${{ env.project_name }}/compile V=s -j$(nproc)
+          make package/${{ env.project_name }}/compile -j$(nproc)
+          cd $GITHUB_WORKSPACE
           mv ${{ matrix.sdk_name }}/bin/packages/*/base/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
 
       - name: Release
