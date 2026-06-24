@@ -1,12 +1,18 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=luci-app-ezsgx
-PKG_VERSION:=0.0.1
-PKG_RELEASE:=1
-PKG_LICENSE:=GPL-3.0
+PKG_NAME:=sing-box
+PKG_VERSION:=$(go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
+PKG_RELEASE:=0
+PKG_LICENSE:=GPL-3.0-or-later
 
-LUCI_TITLE:=LuCI interface for sing-box , with built-in binary
+LUCI_TITLE:=sing-box rebuild binary for OpenWrt, with high performance
 LUCI_PKGARCH:=x86_64
+LUCI_DEPENDS:= \
+  +ca-bundle \
+  +kmod-inet-diag \
+  +kmod-tun \
+  +firewall4 \
+  +kmod-nft-queue
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
