@@ -64,15 +64,12 @@ jobs:
         run: |
           cd ${{ matrix.sdk_name }}
           make package/${{ env.project_name }}/compile V=s -j$(nproc)
-          cd $GITHUB_WORKSPACE
-          shopt -s globstar
-          mv ${{ matrix.sdk_name }}/bin/packages/**/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
 
       - name: Release
         uses: softprops/action-gh-release@master
         with:
           tag_name: sing-box-openwrt
-          files: ${{ github.workspace }}/sing-box-${{ matrix.patch_arch }}.apk
+          files: ${{ matrix.sdk_name }}/bin/packages/**/sing-box*.apk
           body: |
             # 🚀 sing-box OpenWrt
             > with some tag i need and performance +++++
