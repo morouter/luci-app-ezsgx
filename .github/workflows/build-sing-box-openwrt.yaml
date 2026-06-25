@@ -72,7 +72,7 @@ jobs:
         uses: softprops/action-gh-release@master
         with:
           tag_name: sing-box-openwrt
-          files: $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
+          files: ${{ github.workspace }}/sing-box-${{ matrix.patch_arch }}.apk
           body: |
             # 🚀 sing-box OpenWrt
             > with some tag i need and performance +++++
