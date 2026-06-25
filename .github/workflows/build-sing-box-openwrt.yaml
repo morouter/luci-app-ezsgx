@@ -58,9 +58,6 @@ jobs:
           if [ "${{ matrix.patch_arch }}" != "x86_64" ]; then
           sed -i 's/x86_64/${{ matrix.patch_arch }}/g' ./Makefile
           fi
-          sed -i 's/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) GOAMD64= go run/' Makefile
-          SINGBOX_VERSION=$(go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
-          sed -i 's/VERCION/$SINGBOX_VERSION/g' ./Makefile
 
       - name: Build!
         shell: bash
