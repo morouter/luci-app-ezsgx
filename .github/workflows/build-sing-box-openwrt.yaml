@@ -65,7 +65,7 @@ jobs:
           cd ${{ matrix.sdk_name }}
           make package/${{ env.project_name }}/compile V=s -j$(nproc)
           cd $GITHUB_WORKSPACE
-          mv ${{ matrix.sdk_name }}/bin/packages/*/base/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
+          mv ${{ matrix.sdk_name }}/bin/packages/**/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
 
       - name: Release
         uses: softprops/action-gh-release@master
