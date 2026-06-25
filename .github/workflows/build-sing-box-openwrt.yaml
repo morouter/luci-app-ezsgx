@@ -13,7 +13,7 @@ jobs:
     name: Build sing-box-${{ matrix.patch_arch }}
     runs-on: ubuntu-latest
     env:
-      project_name: "luci-app-ezsgx"
+      project_name: "sing-box"
     strategy:
       fail-fast: false
       matrix:
@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           cd ${{ matrix.sdk_name }}/package
-          git clone https://github.com/mokanove/luci-app-ezsgx.git
+          git clone https://github.com/mokanove/luci-app-ezsgx.git sing-box
           cd ${{ env.project_name }}
           git checkout openwrt
           git pull
