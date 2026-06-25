@@ -79,10 +79,11 @@ jobs:
             # ⚠️ Filename rule
             > sing-box-patch-arch
             >
-            > And you must be install this depends, else it can't work
+            > If you not have this depends, else it can't work
             ```
             apk add ca-bundle kmod-inet-diag kmod-tun firewall4 kmod-nft-queue
             ```
+            >Usually, this be auto install. but if auto not work , you aslo can be do it yourself.
             # 🪞 Mirror
             [By myself](https://867678.xyz/doc/Mirror)
         env:
