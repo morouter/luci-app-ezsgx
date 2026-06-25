@@ -1,10 +1,10 @@
 name: Manuel Build sing-box for OpenWrt
 
 on:
-  #workflow_run:
-  #  workflows: ["Automanticly Build sing-box"]
-  #  types:
-  #    - completed
+  workflow_run:
+    workflows: ["Automanticly Build sing-box"]
+    types:
+      - completed
   workflow_dispatch:
 permissions:
   contents: write
@@ -41,8 +41,8 @@ jobs:
         uses: mokanove/mokanove/actions/prepare-sdk@main
         with:
           sdk_name: ${{ matrix.sdk_name }}
-        
-      - name: Build!
+      
+      - name: Prepare before complie
         shell: bash
         run: |
           cd ${{ matrix.sdk_name }}/package
@@ -58,7 +58,14 @@ jobs:
           if [ "${{ matrix.patch_arch }}" != "x86_64" ]; then
           sed -i 's/x86_64/${{ matrix.patch_arch }}/g' ./Makefile
           fi
-          cd ../../
+          sed -i 's/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) go run/GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) GOAMD64= go run/' Makefile
+          SINGBOX_VERSION=$(go run github.com/sagernet/sing-box/cmd/internal/read_tag@latest)
+          sed -i 's/VERCION/$SINGBOX_VERSION/g' ./Makefile
+
+      - name: Build!
+        shell: bash
+        run: |
+          cd ${{ matrix.sdk_name }}
           make package/${{ env.project_name }}/compile V=s j$(nproc)
           cd $GITHUB_WORKSPACE
           mv ${{ matrix.sdk_name }}/bin/packages/*/base/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
@@ -74,7 +81,7 @@ jobs:
             # ⚠️ Filename rule
             > sing-box-patch-arch
             >
-            > And you must be install depends, else it can't work
+            > And you must be install this depends, else it can't work
             ```
             apk add ca-bundle kmod-inet-diag kmod-tun firewall4 kmod-nft-queue
             ```
