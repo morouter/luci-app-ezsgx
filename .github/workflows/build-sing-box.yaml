@@ -1,4 +1,4 @@
-name: Automanticly Build sing-box
+name: Automatically Build sing-box
 
 on:
   schedule:
