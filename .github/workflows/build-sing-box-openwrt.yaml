@@ -20,13 +20,13 @@ jobs:
         include:
           - sing-box_nickname: "amd64-musl-server"
             patch_arch: "x86_64"
-            sdk_name: "openwrt-sdk-x86-64_gcc-14.3.0_musl.Linux-x86_64"
+            sdk_name: "openwrt-sdk-x86-64_gcc-14.4.0_musl.Linux-x86_64"
           - sing-box_nickname: "arm64-musl-server"
             patch_arch: "aarch64_generic"
-            sdk_name: "openwrt-sdk-rockchip-armv8_gcc-14.3.0_musl.Linux-x86_64"
+            sdk_name: "openwrt-sdk-rockchip-armv8_gcc-14.4.0_musl.Linux-x86_64"
           - sing-box_nickname: "arm64-musl-server"
             patch_arch: "aarch64_cortex-a53"
-            sdk_name: "openwrt-sdk-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64"
+            sdk_name: "openwrt-sdk-mediatek-filogic_gcc-14.4.0_musl.Linux-x86_64"
 
     steps:
       - name: Checkout
