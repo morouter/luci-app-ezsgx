@@ -48,7 +48,7 @@ jobs:
           cd ${{ matrix.sdk_name }}/package
           git clone https://github.com/mokanove/luci-app-ezsgx.git
           cd ${{ env.project_name }}
-          git checkout openwrt
+          git checkout sing-box-op
           git pull
           cd root/usr/bin/
           rm DONOTREMOVE
