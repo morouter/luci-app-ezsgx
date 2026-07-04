@@ -2,7 +2,7 @@ name: Automatically Build sing-box
 
 on:
   schedule:
-    - cron: '0 15 */3 * *'
+    - cron: '30 15 */2 * *'
   push:
   workflow_dispatch:
 permissions:

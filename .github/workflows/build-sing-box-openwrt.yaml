@@ -20,13 +20,13 @@ jobs:
         include:
           - sing-box_nickname: "amd64-musl-server"
             patch_arch: "x86_64"
-            sdk_name: "openwrt-sdk-x86-64_gcc-14.4.0_musl.Linux-x86_64"
+            sdk_arch: "x86-64"
           - sing-box_nickname: "arm64-musl-server"
             patch_arch: "aarch64_generic"
-            sdk_name: "openwrt-sdk-rockchip-armv8_gcc-14.4.0_musl.Linux-x86_64"
+            sdk_arch: "rockchip-armv8"
           - sing-box_nickname: "arm64-musl-server"
             patch_arch: "aarch64_cortex-a53"
-            sdk_name: "openwrt-sdk-mediatek-filogic_gcc-14.4.0_musl.Linux-x86_64"
+            sdk_arch: "mediatek-filogic"
 
     steps:
       - name: Checkout
@@ -39,13 +39,14 @@ jobs:
 
       - name: Prepare SDK
         uses: mokanove/mokanove/actions/prepare-sdk@main
+        id: sdk
         with:
-          sdk_name: ${{ matrix.sdk_name }}
+          sdk_arch: ${{ matrix.sdk_arch }}
       
       - name: Prepare before complie
         shell: bash
         run: |
-          cd ${{ matrix.sdk_name }}/package
+          cd ${{ steps.sdk.outputs.sdk_dir }}/package
           git clone https://github.com/mokanove/luci-app-ezsgx.git
           cd ${{ env.project_name }}
           git checkout sing-box-op
@@ -62,11 +63,11 @@ jobs:
       - name: Build!
         shell: bash
         run: |
-          cd ${{ matrix.sdk_name }}
+          cd ${{ steps.sdk.outputs.sdk_dir }}
           make package/${{ env.project_name }}/compile V=s -j$(nproc)
           cd $GITHUB_WORKSPACE
           shopt -s globstar
-          mv ${{ matrix.sdk_name }}/bin/packages/**/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
+          mv ${{ steps.sdk.outputs.sdk_dir }}/bin/packages/**/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
 
       - name: Release
         uses: softprops/action-gh-release@master
@@ -76,14 +77,15 @@ jobs:
           body: |
             # 🚀 sing-box OpenWrt
             > with some tag i need and performance +++++
-            # ⚠️ Filename rule
+            # 💬 Filename rule
             > sing-box-patch-arch
-            >
+            # ⚠️ WARNING
             > If you not have this depends, else it can't work
+            >
+            > Usually, this be auto install. but if auto not work , you aslo can be do it yourself.
             ```
             apk add ca-bundle kmod-inet-diag kmod-tun firewall4 kmod-nft-queue
             ```
-            >Usually, this be auto install. but if auto not work , you aslo can be do it yourself.
             # 🪞 Mirror
             [By myself](https://867678.xyz/doc/Mirror)
         env:
