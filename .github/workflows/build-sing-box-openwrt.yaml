@@ -35,10 +35,10 @@ jobs:
           path: useless/
         
       - name: Preparing build environment
-        uses: mokanove/mokanove/actions/build-env@main
+        uses: moaeiou/moaeiou/actions/build-env@main
 
       - name: Prepare SDK
-        uses: mokanove/mokanove/actions/prepare-sdk@main
+        uses: moaeiou/moaeiou/actions/prepare-sdk@main
         id: sdk
         with:
           sdk_arch: ${{ matrix.sdk_arch }}
