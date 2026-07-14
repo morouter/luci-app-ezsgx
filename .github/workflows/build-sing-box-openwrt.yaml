@@ -10,7 +10,7 @@ permissions:
   contents: write
 jobs:
   build:
-    name: Build sing-box-${{ matrix.patch_arch }}
+    name: Build sing-box-${{ matrix.nickname }}
     runs-on: ubuntu-latest
     env:
       project_name: "luci-app-ezsgx"
@@ -18,13 +18,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - sing-box_nickname: "amd64-musl-server"
+          - nickname: "amd64-musl-server"
             patch_arch: "x86_64"
             sdk_arch: "x86-64"
-          - sing-box_nickname: "arm64-musl-server"
+          - nickname: "arm64-musl-server"
             patch_arch: "aarch64_generic"
             sdk_arch: "rockchip-armv8"
-          - sing-box_nickname: "arm64-musl-server"
+          - nickname: "arm64-musl-server"
             patch_arch: "aarch64_cortex-a53"
             sdk_arch: "mediatek-filogic"
 
@@ -53,7 +53,7 @@ jobs:
           git pull
           cd root/usr/bin/
           rm DONOTREMOVE
-          wget -O sing-box https://github.com/morouter/luci-app-ezsgx/releases/download/sing-box/sing-box-testing-linux-${{ matrix.sing-box_nickname }}
+          wget -O sing-box https://github.com/morouter/luci-app-ezsgx/releases/download/sing-box/sing-box-testing-linux-${{ matrix.nickname }}
           chmod +x ./sing-box
           cd ../../../
           if [ "${{ matrix.patch_arch }}" != "x86_64" ]; then
@@ -67,7 +67,7 @@ jobs:
           make package/${{ env.project_name }}/compile V=s -j$(nproc)
           cd $GITHUB_WORKSPACE
           shopt -s globstar
-          mv ${{ steps.sdk.outputs.sdk_dir }}/bin/packages/**/sing-box*.apk $GITHUB_WORKSPACE/sing-box-${{ matrix.patch_arch }}.apk
+          mv ${{ steps.sdk.outputs.sdk_dir }}/bin/packages/**/sing-box*.apk ${{ github.workspace }}/sing-box-${{ matrix.patch_arch }}.apk
 
       - name: Release
         uses: softprops/action-gh-release@master
