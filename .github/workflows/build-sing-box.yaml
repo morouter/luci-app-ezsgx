@@ -65,7 +65,7 @@ jobs:
             tag: "with_quic with_wireguard with_utls with_clash_api with_gvisor tfogo_checklinkname0 badlinkname"
           - nickname: "darwin-arm64-v2rayN"
             sing-box_branch: "stable"
-            extra: "CGO_ENABLED=1 GOOS=darwin GOARCH=arm64"
+            extra: "GOOS=darwin GOARCH=arm64"
             tag: "with_quic with_wireguard with_utls with_clash_api with_gvisor tfogo_checklinkname0 badlinkname"
           - nickname: "windows-amd64-v2rayN.exe"
             sing-box_branch: "stable"
