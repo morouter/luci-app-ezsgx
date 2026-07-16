@@ -8,7 +8,7 @@ on:
 permissions:
   contents: write
 jobs:
-  build:
+  Binary:
     name: Build sing-box-${{ matrix.nickname }}
     runs-on: ubuntu-latest
     strategy:
@@ -120,3 +120,86 @@ jobs:
             [By myself](https://867678.xyz/doc/Mirror)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  OpenWrt:
+    name: Build sing-box-${{ matrix.nickname }}
+    needs: Binary
+    runs-on: ubuntu-latest
+    env:
+      project_name: "luci-app-ezsgx"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - nickname: "amd64-musl-server"
+            patch_arch: "x86_64"
+            sdk_arch: "x86-64"
+          - nickname: "arm64-musl-server"
+            patch_arch: "aarch64_generic"
+            sdk_arch: "rockchip-armv8"
+          - nickname: "arm64-musl-server"
+            patch_arch: "aarch64_cortex-a53"
+            sdk_arch: "mediatek-filogic"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          path: useless/
+        
+      - name: Preparing build environment
+        uses: moaeiou/moaeiou/actions/build-env@main
+
+      - name: Prepare SDK
+        uses: moaeiou/moaeiou/actions/prepare-sdk@main
+        id: sdk
+        with:
+          sdk_arch: ${{ matrix.sdk_arch }}
+      
+      - name: Prepare before complie
+        shell: bash
+        run: |
+          cd ${{ steps.sdk.outputs.sdk_dir }}/package
+          git clone https://github.com/morouter/luci-app-ezsgx.git
+          cd ${{ env.project_name }}
+          git checkout sing-box-op
+          git pull
+          cd root/usr/bin/
+          rm DONOTREMOVE
+          wget -O sing-box https://github.com/morouter/luci-app-ezsgx/releases/download/sing-box/sing-box-testing-linux-${{ matrix.nickname }}
+          chmod +x ./sing-box
+          cd ../../../
+          if [ "${{ matrix.patch_arch }}" != "x86_64" ]; then
+          sed -i 's/x86_64/${{ matrix.patch_arch }}/g' ./Makefile
+          fi
+
+      - name: Build!
+        shell: bash
+        run: |
+          cd ${{ steps.sdk.outputs.sdk_dir }}
+          make package/${{ env.project_name }}/compile V=s -j$(nproc)
+          cd $GITHUB_WORKSPACE
+          shopt -s globstar
+          mv ${{ steps.sdk.outputs.sdk_dir }}/bin/packages/**/sing-box*.apk ${{ github.workspace }}/sing-box-${{ matrix.patch_arch }}.apk
+
+      - name: Release
+        uses: softprops/action-gh-release@master
+        with:
+          tag_name: sing-box-openwrt
+          files: ${{ github.workspace }}/sing-box-${{ matrix.patch_arch }}.apk
+          body: |
+            # 🚀 sing-box OpenWrt
+            > with some tag i need and performance +++++
+            # 💬 Filename rule
+            > sing-box-patch-arch
+            # ⚠️ WARNING
+            > If you not have this depends, else it can't work
+            >
+            > Usually, this be auto install. but if auto not work , you aslo can be do it yourself.
+            ```
+            apk add ca-bundle kmod-inet-diag kmod-tun firewall4 kmod-nft-queue
+            ```
+            # 🪞 Mirror
+            [By myself](https://867678.xyz/doc/Mirror)
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
